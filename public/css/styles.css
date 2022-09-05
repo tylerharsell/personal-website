@@ -1,0 +1,313 @@
+body {
+  margin: 0;
+  background-color: white;
+}
+
+li {
+  display: inline-block;
+}
+
+h1 {
+  margin-top: 0;
+  color: black;
+  text-align: center;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 100px;
+}
+
+h2 {
+  margin-top: 0;
+  color: black;
+  text-align: center;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 100px;
+}
+
+p {
+  color: black;
+  font-size: 150%;
+  font-family: 'Share Tech Mono', monospace;
+  text-decoration: none; 
+}
+h3 {
+  /* background-color: black; */
+  margin-top: auto;
+  padding-top: 3vh;
+  font-size: 36px;
+  color: white;
+}
+
+tr {
+  margin-right: 50px;
+}
+
+.header {
+  background-color: white;
+  display: flex;
+  width: 75%;
+  justify-content: center;
+  margin: auto;
+  font-family: "Share Tech Mono", monospace;
+  font-size: 35px;
+}
+
+.header-link {
+  text-decoration: none;
+  display: flex;
+  width: 50%;
+  margin-right: 7%;
+  color: black; 
+  justify-content: center;
+  align-items: center;
+}
+
+.header-image {
+  margin: 15%;
+  width: 50px;
+  height: 50px;
+}
+
+.top-container {
+  background-color: white;
+  margin-top: 100px;
+  margin-bottom: 0;
+  height: auto;
+  text-align: center;
+  color: black;
+}
+
+.middle-container {
+  height: auto;
+  text-align: center;
+  color: black;
+  background-color: white;
+  margin-top: 10%;
+}
+.mountain-container {
+  display: flex;
+  width: 100%;
+}
+#mountain {
+  float: right;
+  align-items: center;
+  margin: auto;
+}
+.middle-container h1 {
+  margin-bottom: 0;
+}
+
+hr {
+  margin-top: 0;
+  height: 4px;
+  background-color: grey;
+}
+
+.img-slideshow-1 {
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  height: 25%;
+  align-items: center;
+  align-content: center;
+  flex-wrap: wrap;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+.img-slides {
+  display: flex;
+  width: auto;
+  height: 100px;
+  flex-wrap: nowrap;
+  flex-grow: 1;
+  justify-content: center;
+  opacity: 1;
+  transition: 0.5s ease;
+  backface-visibility: hidden;
+}
+.img-slides:hover {
+  opacity: 0.3;
+}
+
+/* .img-slides:hover .logo-text{
+  opacity: 1;
+  transition: 0.5 ease;
+} */
+
+
+.logo-text {
+  opacity: 0; 
+}
+
+
+.bottom-container {
+  color: black;
+  text-align: center;
+  background-color: white;
+  font-family: 'Share Tech Mono', monospace;
+  
+}
+
+h3.technical_skills {
+  color: black;
+}
+
+.footer-container {
+  display: flex;
+  width: 100%;
+  font-family: 'Share Tech Mono', monospace;
+  justify-content: center;
+}
+
+.footer-item {
+  display: flex;
+  text-decoration: none;
+  width: 100%;
+  justify-content: right;
+  align-items: center;
+  margin-right: 2%;
+  font-size: 150%;
+}
+
+.footer-link {
+  text-decoration: none !important;
+  color: black !important;
+  font-family: 'Share Tech Mono', monospace !important;
+  display: flex ;
+  width: 50%;
+  justify-content: left;
+  align-items: center;
+  font-size: 125%;
+}
+a {
+  text-decoration: none;
+  color: black;
+  font-family: 'Share Tech Mono', monospace;
+}
+#github_logo {
+  height: 50px;
+  width: 50px;
+}
+
+#linkedin_logo {
+  height: 50px;
+  width: 50px;
+}
+
+li.list {
+  margin-right: 30px;
+}
+.cloud-containers {
+  display: flex;
+  /* flex-direction: column; */
+  width: 100%;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+.cloud-containers-bottom {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+.clouds {
+  width:33%;
+}
+.clouds-bottom {
+  width:50%;
+}
+.form-style-1 {
+  margin: 10px auto;
+  max-width: 400px;
+  padding: 20px 12px 10px 20px;
+  font: 26px "Share Tech Mono", monospace;
+}
+
+.form-style-1 li {
+  padding: 0;
+  display: block;
+  list-style: none;
+  margin: 10px 0 0 0;
+}
+
+.form-style-1 label {
+  margin: 0 0 3px 0;
+  padding: 0px;
+  display: block;
+  font-weight: bold;
+}
+
+.form-style-1 input[type=text],
+.form-style-1 input[type=date],
+.form-style-1 input[type=datetime],
+.form-style-1 input[type=number],
+.form-style-1 input[type=search],
+.form-style-1 input[type=time],
+.form-style-1 input[type=url],
+.form-style-1 input[type=email],
+textarea,
+select {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  border: 1px solid #BEBEBE;
+  padding: 7px;
+  margin: 0px;
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -ms-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+  outline: none;
+}
+
+.form-style-1 input[type=text]:focus,
+.form-style-1 input[type=date]:focus,
+.form-style-1 input[type=datetime]:focus,
+.form-style-1 input[type=number]:focus,
+.form-style-1 input[type=search]:focus,
+.form-style-1 input[type=time]:focus,
+.form-style-1 input[type=url]:focus,
+.form-style-1 input[type=email]:focus,
+.form-style-1 textarea:focus,
+.form-style-1 select:focus {
+  -moz-box-shadow: 0 0 8px #88D5E9;
+  -webkit-box-shadow: 0 0 8px #88D5E9;
+  box-shadow: 0 0 8px #88D5E9;
+  border: 1px solid #88D5E9;
+}
+
+.form-style-1 .field-divided {
+  width: 49%;
+}
+
+.form-style-1 .field-long {
+  width: 100%;
+}
+
+.form-style-1 .field-select {
+  width: 100%;
+}
+
+.form-style-1 .field-textarea {
+  height: 100px;
+}
+
+.form-style-1 input[type=submit],
+.form-style-1 input[type=button] {
+  background: black;
+  padding: 8px 15px 8px 15px;
+  border: none;
+  color: #fff;
+}
+
+.form-style-1 input[type=submit]:hover,
+.form-style-1 input[type=button]:hover {
+  background: black;
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+.form-style-1 .required {
+  color: red;
+}
