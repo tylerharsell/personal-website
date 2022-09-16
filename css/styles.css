@@ -311,3 +311,17 @@ select {
 .form-style-1 .required {
   color: red;
 }
+
+@media screen and (max-width: 500px){
+  .img-slides {
+    display: flex;
+    width: auto;
+    height: 50px;
+    flex-wrap: nowrap;
+    flex-grow: 1;
+    justify-content: center;
+    opacity: 1;
+    transition: 0.5s ease;
+    backface-visibility: hidden;
+  }
+}
