@@ -709,20 +709,20 @@ select {
 @media only screen and (max-width: 500px) {
 
   .header-image {
-    margin: 15%;
+    margin: 5vw;
     width: 30px;
     height: 30px;
   }
-
 
 
   .img-slides {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
-    max-width: fit-content;
+    max-height: 5vw;
+    max-width: 5vw;
     width: auto;
-    height: 50px;
+    height: auto;
     -ms-flex-wrap: nowrap;
     flex-wrap: nowrap;
     -webkit-box-flex: 1;
