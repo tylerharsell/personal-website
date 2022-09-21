@@ -720,6 +720,7 @@ select {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
+    max-width: fit-content;
     width: auto;
     height: 50px;
     -ms-flex-wrap: nowrap;
