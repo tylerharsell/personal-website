@@ -102,7 +102,7 @@ hr {
 .img-slideshow-1 {
   display: flex;
   width: 100%;
-  flex-direction: row;
+  /* flex-direction: row; */
   height: 25%;
   align-items: center;
   align-content: center;
@@ -309,11 +309,11 @@ select {
   color: red;
 }
 
-/* @media screen and (max-width: 500px){
+@media screen and (max-width: 500px){
   .img-slides {
     display: flex;
     width: auto;
-    height: 50px;
+    height: 15px;
     flex-wrap: nowrap;
     flex-grow: 1;
     justify-content: center;
@@ -321,4 +321,4 @@ select {
     transition: 0.5s ease;
     backface-visibility: hidden;
   }
-} */
+}
