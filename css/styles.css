@@ -309,7 +309,7 @@ select {
   color: red;
 }
 
-@media screen and (max-width: 500px){
+/* @media screen and (max-width: 500px){
   .img-slides {
     display: flex;
     width: auto;
@@ -321,4 +321,4 @@ select {
     transition: 0.5s ease;
     backface-visibility: hidden;
   }
-}
+} */
