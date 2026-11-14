@@ -1,0 +1,263 @@
+/* Palette
+   Paper    #F1F2EE  background
+   Ink      #16202E  text
+   Graphite #586172  secondary text (4.9:1 on Paper)
+   Grid     #B4BDCA  lattice points, rules
+   Cobalt   #1D5BA8  links, basis vectors (5.9:1 on Paper)
+*/
+:root {
+  --paper: #F1F2EE;
+  --ink: #16202E;
+  --graphite: #586172;
+  --grid: #B4BDCA;
+  --cobalt: #1D5BA8;
+
+  --sans: "Atkinson Hyperlegible Next", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "Atkinson Hyperlegible Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Modular scale, ratio 1.25 from an 18px base */
+  --step-0: 1.125rem;
+  --step-1: 1.40625rem;
+  --step-2: 1.758rem;
+  --step-4: clamp(2.6rem, 6vw + 1rem, 4.4rem);
+
+  --measure: 66ch;
+  --gutter: 11rem;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html {
+  background: var(--paper);
+  color: var(--ink);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: var(--step-0);
+  line-height: 1.55;
+  font-kerning: normal;
+}
+
+a {
+  color: var(--cobalt);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+a:hover { text-decoration-thickness: 2px; }
+a:focus-visible {
+  outline: 2px solid var(--cobalt);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+}
+
+.skip {
+  position: absolute;
+  left: 1rem;
+  top: -3rem;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.5rem 0.9rem;
+}
+.skip:focus { top: 1rem; }
+
+/* ---------- Hero ---------- */
+
+.hero {
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: clamp(2.5rem, 7vw, 6rem) clamp(1.25rem, 5vw, 3rem) 3rem;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  align-items: center;
+}
+
+.hero h1 {
+  font-size: var(--step-4);
+  font-weight: 750;
+  line-height: 1;
+  letter-spacing: -0.025em;
+  margin: 0 0 1.5rem;
+}
+
+.lede {
+  font-size: var(--step-1);
+  line-height: 1.45;
+  max-width: 34ch;
+  margin: 0 0 2rem;
+}
+
+.contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.6rem;
+  font-weight: 600;
+}
+
+.hero-figure { margin: 0; }
+
+.lattice {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.lattice-points circle { fill: var(--grid); }
+.lattice-basis line {
+  stroke: var(--cobalt);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+.lattice-basis .origin { fill: var(--cobalt); }
+.lattice-target line {
+  stroke: var(--ink);
+  stroke-width: 2;
+  stroke-dasharray: 0.12 0.08;
+}
+.lattice-target .target { fill: var(--ink); }
+.lattice-target .nearest {
+  fill: var(--paper);
+  stroke: var(--ink);
+  stroke-width: 2;
+}
+
+.hero-figure figcaption {
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--graphite);
+  max-width: 46ch;
+  margin-top: 0.75rem;
+}
+
+/* The one moment of motion: the lattice appears from its origin outward,
+   then the basis vectors draw, then the off-lattice point resolves. */
+@media (prefers-reduced-motion: no-preference) {
+  .lattice-points circle {
+    opacity: 0;
+    animation: appear 0.5s ease-out forwards;
+    animation-delay: var(--d);
+  }
+  .lattice-basis line {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+    animation: draw 0.7s ease-in-out 0.55s forwards;
+  }
+  .lattice-basis .origin {
+    opacity: 0;
+    animation: appear 0.3s ease-out 0.4s forwards;
+  }
+  .lattice-target {
+    opacity: 0;
+    animation: appear 0.6s ease-out 1.3s forwards;
+  }
+}
+@keyframes appear { to { opacity: 1; } }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+/* ---------- Content blocks ---------- */
+
+main {
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 5vw, 3rem);
+}
+
+.block {
+  display: grid;
+  grid-template-columns: var(--gutter) minmax(0, var(--measure));
+  gap: 2rem;
+  padding: 3rem 0;
+  border-top: 1px solid var(--grid);
+}
+
+.block h2 {
+  font-size: var(--step-0);
+  font-weight: 600;
+  color: var(--graphite);
+  margin: 0.2rem 0 0;
+}
+
+.block-body > :first-child { margin-top: 0; }
+.block-body p { margin: 0 0 1rem; }
+
+.block h3 {
+  font-size: var(--step-1);
+  font-weight: 600;
+  line-height: 1.3;
+  margin: 0 0 0.35rem;
+}
+.block h3 .org {
+  display: block;
+  font-size: var(--step-0);
+  font-weight: 400;
+  color: var(--graphite);
+}
+
+.when {
+  color: var(--graphite);
+  font-size: 0.95rem;
+}
+
+.work-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.5rem 0 0;
+}
+.work-list li {
+  padding-left: 1.1rem;
+  position: relative;
+  margin-bottom: 1rem;
+}
+/* A small lattice point as the list marker */
+.work-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.68em;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--cobalt);
+}
+
+.project + .project { margin-top: 2.25rem; }
+.project h3 a { color: var(--ink); text-decoration-color: var(--grid); }
+.project h3 a:hover { text-decoration-color: var(--cobalt); }
+
+footer {
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: 0 clamp(1.25rem, 5vw, 3rem) 4rem;
+  font-size: 0.875rem;
+  color: var(--graphite);
+}
+footer p {
+  margin: 0;
+  padding-top: 2.5rem;
+  border-top: 1px solid var(--grid);
+}
+
+/* ---------- Narrow screens ---------- */
+
+@media (max-width: 52rem) {
+  .hero { grid-template-columns: 1fr; }
+  .hero-figure { max-width: 34rem; }
+  .lede { max-width: none; }
+  .block {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    padding: 2.25rem 0;
+  }
+}
+
+@media print {
+  .hero-figure, .skip { display: none; }
+  .block { border-top-color: #ccc; }
+}
