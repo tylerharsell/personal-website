@@ -158,7 +158,8 @@
         <p>I maintain the TLS 1.0–1.3 and IPsec implementations in Cisco’s security appliances and VPN client, which ship to enterprise customers worldwide. Day to day that means C, OpenSSL internals, CVE fixes, and validated crypto-library rollouts.</p>
         <ul class="work-list">
           <li><strong>Post-quantum cryptography.</strong> Led the production integration of NIST’s ML-KEM and ML-DSA into our TLS and IPsec code, working through OpenSSL 3.x internals and with the hardware-acceleration team to keep throughput where it was.</li>
-          <li><strong>OpenSSL 3 migration.</strong> Moved 12 cryptographic components from OpenSSL 1.1.1 to 3.3, replacing deprecated low-level calls with <code>EVP</code> and provider-based equivalents. I also built an LLM-assisted static-analysis tool that finds deprecated 1.1.1 API use across the codebase and proposes the 3.x rewrite.</li>
+          <li><strong>Automated library upgrades.</strong> Built a Claude-based AI agent that runs CiscoSSL upgrades end to end, from a pristine CiscoSSL release through API migration, build, and test, and hands upgraded product images to QA. It cut upgrade time from several months to several weeks.</li>
+          <li><strong>OpenSSL 3 migration.</strong> Moved 12 cryptographic components from OpenSSL 1.1.1 to 3.3, replacing deprecated low-level calls with <code>EVP</code> and provider-based equivalents.</li>
           <li><strong>Deprecation detection.</strong> Designed and owned a system that spots weak cipher suites and end-of-life algorithms in live configurations and reports them to operators through structured syslog, across several product lines.</li>
           <li><strong>VPN throughput.</strong> Tracked an SSL VPN throughput drop under heavy load to queue limits and shipped a kernel-level queue configuration feature with 8× the buffer capacity, which eliminated the packet drops.</li>
         </ul>
