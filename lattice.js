@@ -1,7 +1,7 @@
 // A cube of points from the integer lattice Z^3, drawn on a canvas.
-// A target point drifts through the cube; a dashed segment joins it to its
-// closest lattice point (the closest-vector problem, in three dimensions).
-// Drag or use the arrow keys to rotate. Honors prefers-reduced-motion.
+// The cube turns slowly; a target point drifts through it and its closest
+// lattice point is highlighted (the closest-vector problem, in three
+// dimensions). Dots only. Honors prefers-reduced-motion.
 (() => {
   const canvas = document.getElementById("lattice3d");
   if (!canvas || !canvas.getContext) return;
@@ -19,22 +19,12 @@
     for (let y = 0; y < N; y++)
       for (let z = 0; z < N; z++) points.push([x - H, y - H, z - H]);
 
-  const corners = [];
-  for (const x of [-H, H]) for (const y of [-H, H]) for (const z of [-H, H]) corners.push([x, y, z]);
-  const edges = [];
-  for (let i = 0; i < 8; i++)
-    for (let j = i + 1; j < 8; j++) {
-      const d = corners[i].reduce((n, v, k) => n + (v !== corners[j][k]), 0);
-      if (d === 1) edges.push([i, j]);
-    }
 
   const motionQuery = matchMedia("(prefers-reduced-motion: reduce)");
   let reduced = motionQuery.matches;
 
-  let yaw = -0.62, pitch = -0.42;   // view rotation (radians)
-  let vYaw = 0, vPitch = 0;         // drag inertia (rad/s)
-  let dragging = false, lastX = 0, lastY = 0, lastMoveT = 0;
-  let idleSince = -Infinity;        // auto-rotation waits after interaction
+  let yaw = -0.62;                  // view rotation (radians)
+  const pitch = -0.42;
   let drift = 7;                    // time parameter for the target's path
   let intro = reduced ? 1 : 0;      // 0 → 1 load-in progress
   let colors = {};
@@ -46,7 +36,6 @@
     const v = (name, fb) => cs.getPropertyValue(name).trim() || fb;
     colors = {
       point: v("--lattice-point", "#8E9AAB"),
-      edge: v("--lattice-edge", "rgba(120,130,150,0.35)"),
       accent: v("--lattice-accent", "#1D5BA8"),
       target: v("--lattice-target", "#16202E"),
       bg: v("--lattice-bg", "#F1F2EE"),
@@ -90,26 +79,11 @@
     return { x: w / 2 + x1 * s * f, y: h / 2 - y2 * s * f, z: z2, f };
   }
 
-  function line(a, b, color, width, dash) {
-    ctx.beginPath();
-    ctx.setLineDash(dash || []);
-    ctx.strokeStyle = color;
-    ctx.lineWidth = width;
-    ctx.moveTo(a.x, a.y);
-    ctx.lineTo(b.x, b.y);
-    ctx.stroke();
-    ctx.setLineDash([]);
-  }
 
   function draw() {
     if (!w || !h) return;
     ctx.clearRect(0, 0, w, h);
     const ease = 1 - Math.pow(1 - intro, 3);
-
-    // Cube outline
-    ctx.globalAlpha = ease;
-    const pc = corners.map(project);
-    for (const [i, j] of edges) line(pc[i], pc[j], colors.edge, 1);
 
     // Lattice points, back to front, sized and faded by depth
     const proj = points.map((p, i) => ({ ...project(p), i }));
@@ -127,34 +101,21 @@
       ctx.fill();
     }
 
-    // Basis vectors from the origin corner
-    ctx.globalAlpha = Math.max(0, (ease - 0.4) / 0.6);
-    const o = [-H, -H, -H];
-    const po = project(o);
-    for (const e of [[1, 0, 0], [0, 1, 0], [0, 0, 1]]) {
-      const tip = project([o[0] + 2 * e[0], o[1] + 2 * e[1], o[2] + 2 * e[2]]);
-      line(po, tip, colors.accent, 2.5);
-    }
-    ctx.fillStyle = colors.accent;
-    ctx.beginPath(); ctx.arc(po.x, po.y, 4 * po.f, 0, Math.PI * 2); ctx.fill();
-
-    // Target and its closest lattice point
+    // Target and its closest lattice point, as dots
     ctx.globalAlpha = Math.max(0, (ease - 0.6) / 0.4);
     const t = target(drift);
     const pt = project(t), pn = project(nearest(t));
-    line(pt, pn, colors.target, 1.6, [4, 4]);
     ctx.beginPath();
-    ctx.arc(pn.x, pn.y, 6.5 * pn.f, 0, Math.PI * 2);
-    ctx.fillStyle = colors.bg; ctx.fill();
-    ctx.lineWidth = 2; ctx.strokeStyle = colors.target; ctx.stroke();
+    ctx.arc(pn.x, pn.y, 6 * pn.f, 0, Math.PI * 2);
+    ctx.fillStyle = colors.accent; ctx.fill();
     ctx.beginPath();
-    ctx.arc(pt.x, pt.y, 5 * pt.f, 0, Math.PI * 2);
+    ctx.arc(pt.x, pt.y, 4.5 * pt.f, 0, Math.PI * 2);
     ctx.fillStyle = colors.target; ctx.fill();
     ctx.globalAlpha = 1;
   }
 
   function animating() {
-    return !reduced || dragging || Math.abs(vYaw) > 0.01 || Math.abs(vPitch) > 0.01;
+    return !reduced;
   }
 
   function frame(now) {
@@ -162,14 +123,8 @@
     const dt = Math.min(0.05, (now - (lastFrame || now)) / 1000);
     lastFrame = now;
     if (intro < 1) intro = Math.min(1, intro + dt / 1.4);
-    if (!dragging) {
-      yaw += vYaw * dt; pitch += vPitch * dt;
-      const decay = Math.pow(0.04, dt);
-      vYaw *= decay; vPitch *= decay;
-      if (!reduced && now - idleSince > 2500) yaw += 0.16 * dt;
-    }
-    if (!reduced) drift += dt * 0.9;
-    pitch = Math.max(-1.3, Math.min(1.3, pitch));
+    yaw += 0.16 * dt;
+    drift += dt * 0.9;
     draw();
     schedule();
   }
@@ -181,49 +136,6 @@
       lastFrame = 0;
     }
   }
-
-  // Pointer drag
-  canvas.addEventListener("pointerdown", (e) => {
-    dragging = true; vYaw = vPitch = 0;
-    lastX = e.clientX; lastY = e.clientY; lastMoveT = performance.now();
-    canvas.setPointerCapture(e.pointerId);
-    canvas.classList.add("is-dragging");
-    schedule();
-  });
-  canvas.addEventListener("pointermove", (e) => {
-    if (!dragging) return;
-    const now = performance.now();
-    const dx = e.clientX - lastX, dy = e.clientY - lastY;
-    const dts = Math.max(0.001, (now - lastMoveT) / 1000);
-    yaw += dx * 0.01; pitch += dy * 0.01;
-    vYaw = (dx * 0.01) / dts; vPitch = (dy * 0.01) / dts;
-    lastX = e.clientX; lastY = e.clientY; lastMoveT = now;
-    idleSince = now;
-    if (reduced) draw();
-  });
-  const end = () => {
-    if (!dragging) return;
-    dragging = false;
-    if (performance.now() - lastMoveT > 80) vYaw = vPitch = 0;
-    if (reduced) vYaw = vPitch = 0;
-    idleSince = performance.now();
-    canvas.classList.remove("is-dragging");
-    schedule();
-  };
-  canvas.addEventListener("pointerup", end);
-  canvas.addEventListener("pointercancel", end);
-
-  // Keyboard rotation
-  canvas.addEventListener("keydown", (e) => {
-    const step = 0.15;
-    const moves = { ArrowLeft: [-step, 0], ArrowRight: [step, 0], ArrowUp: [0, -step], ArrowDown: [0, step] };
-    const m = moves[e.key];
-    if (!m) return;
-    e.preventDefault();
-    yaw += m[0]; pitch = Math.max(-1.3, Math.min(1.3, pitch + m[1]));
-    idleSince = performance.now();
-    draw();
-  });
 
   // Pause when off screen or in a background tab
   if ("IntersectionObserver" in window) {

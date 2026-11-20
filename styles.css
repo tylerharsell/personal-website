@@ -265,7 +265,6 @@ footer p {
 /* ---------- 3D lattice (canvas, drawn by lattice.js) ---------- */
 .hero-figure {
   --lattice-point: #7F8DA1;
-  --lattice-edge: rgba(22, 32, 46, 0.16);
   --lattice-accent: var(--cobalt);
   --lattice-target: var(--ink);
   --lattice-bg: var(--paper);
@@ -274,10 +273,6 @@ footer p {
   display: block;
   width: 100%;
   aspect-ratio: 1 / 0.92;
-  cursor: grab;
-  touch-action: pan-y;
   border-radius: 4px;
 }
-.lattice-3d.is-dragging { cursor: grabbing; }
-.lattice-3d:focus-visible { outline: 2px solid var(--cobalt); outline-offset: 4px; }
 .lattice-fallback[hidden], .lattice-3d[hidden] { display: none; }
