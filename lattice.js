@@ -1,7 +1,7 @@
 // A cube of points from the integer lattice Z^3, drawn on a canvas.
-// The cube turns slowly; a target point drifts through it and its closest
-// lattice point is highlighted (the closest-vector problem, in three
-// dimensions). Dots only. Honors prefers-reduced-motion.
+// The cube turns slowly; a target point drifts through it, joined by a dashed
+// segment to its closest lattice point (the closest-vector problem, in three
+// dimensions). Basis vectors run from one corner. Honors prefers-reduced-motion.
 (() => {
   const canvas = document.getElementById("lattice3d");
   if (!canvas || !canvas.getContext) return;
@@ -80,6 +80,17 @@
   }
 
 
+  function line(a, b, color, width, dash) {
+    ctx.beginPath();
+    ctx.setLineDash(dash || []);
+    ctx.strokeStyle = color;
+    ctx.lineWidth = width;
+    ctx.moveTo(a.x, a.y);
+    ctx.lineTo(b.x, b.y);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
   function draw() {
     if (!w || !h) return;
     ctx.clearRect(0, 0, w, h);
@@ -101,15 +112,28 @@
       ctx.fill();
     }
 
-    // Target and its closest lattice point, as dots
+    // Basis vectors from the origin corner
+    ctx.globalAlpha = Math.max(0, (ease - 0.4) / 0.6);
+    const o = [-H, -H, -H];
+    const po = project(o);
+    for (const e of [[1, 0, 0], [0, 1, 0], [0, 0, 1]]) {
+      const tip = project([o[0] + 2 * e[0], o[1] + 2 * e[1], o[2] + 2 * e[2]]);
+      line(po, tip, colors.accent, 2.5);
+    }
+    ctx.fillStyle = colors.accent;
+    ctx.beginPath(); ctx.arc(po.x, po.y, 4 * po.f, 0, Math.PI * 2); ctx.fill();
+
+    // Target, dashed segment, and its closest lattice point
     ctx.globalAlpha = Math.max(0, (ease - 0.6) / 0.4);
     const t = target(drift);
     const pt = project(t), pn = project(nearest(t));
+    line(pt, pn, colors.target, 1.6, [4, 4]);
     ctx.beginPath();
-    ctx.arc(pn.x, pn.y, 6 * pn.f, 0, Math.PI * 2);
-    ctx.fillStyle = colors.accent; ctx.fill();
+    ctx.arc(pn.x, pn.y, 6.5 * pn.f, 0, Math.PI * 2);
+    ctx.fillStyle = colors.bg; ctx.fill();
+    ctx.lineWidth = 2; ctx.strokeStyle = colors.target; ctx.stroke();
     ctx.beginPath();
-    ctx.arc(pt.x, pt.y, 4.5 * pt.f, 0, Math.PI * 2);
+    ctx.arc(pt.x, pt.y, 5 * pt.f, 0, Math.PI * 2);
     ctx.fillStyle = colors.target; ctx.fill();
     ctx.globalAlpha = 1;
   }
